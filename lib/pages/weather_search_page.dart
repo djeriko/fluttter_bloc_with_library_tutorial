@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_library_tutorial/bloc/weather_bloc.dart';
 import 'package:flutter_bloc_library_tutorial/data/model/weather.dart';
 
 import 'weather_detail_page.dart';
@@ -14,7 +16,19 @@ class WeatherSearchPage extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 16),
         alignment: Alignment.center,
         //TODO: Display the weather and loading indicator using Bloc
-        child: buildInitialInput(),
+        child: BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            if (state is WeatherInitial) {
+              return buildInitialInput();
+            } else if (state is WeatherLoading) {
+              return buildLoading();
+            } else if (state is WeatherLoaded) {
+              return buildColumnWithData(context, state.weather);
+            } else if (state is WeatherError) {
+              return buildInitialInput();
+            }
+          },
+        ),
       ),
     );
   }
