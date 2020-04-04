@@ -1,3 +1,4 @@
+import "package:equatable/equatable.dart";
 import 'package:meta/meta.dart';
 
 class Weather {
@@ -10,4 +11,11 @@ class Weather {
     @required this.temperatureCelsius,
     this.temperatureFahrenheit,
   });
+
+  @override
+  List<Object> get props => [
+        cityName,
+        temperatureCelsius,
+        temperatureFahrenheit,
+      ];
 }
